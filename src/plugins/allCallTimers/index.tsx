@@ -122,9 +122,13 @@ export default definePlugin({
     renderTimer(userId: string) {
         // get the user join time from the users object
         const joinTime = userJoinTimes.get(userId);
+        let time: number;
         if (!joinTime) {
-            // join time is unknown
-            return;
+            // join time has not been set yet (<1000ms has passed since join)
+            time = Date.now();
+        } else {
+            // join time is known
+            time = joinTime.time;
         }
         if (userId === UserStore.getCurrentUser().id && !settings.store.trackSelf) {
             // don't show for self
@@ -133,7 +137,7 @@ export default definePlugin({
 
         return (
             <ErrorBoundary>
-                <Timer time={joinTime.time} />
+                <Timer time={time} />
             </ErrorBoundary>
         );
     },
