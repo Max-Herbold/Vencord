@@ -68,9 +68,9 @@ export default definePlugin({
         const states = VoiceStateStore.getAllVoiceStates();
 
         const currentUsers = this.allUsers(states);
-        for (const userId in userJoinTimes) {
+        for (const userId of userJoinTimes.keys()) {
             if (!currentUsers.includes(userId)) {
-                // user left the channel
+                // user is not in any voice channel
                 userJoinTimes.delete(userId);
             }
         }
